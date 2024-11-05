@@ -1,3 +1,4 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertagger/src/tagged_text.dart';
 import 'package:fluttertagger/src/trie.dart';
@@ -861,7 +862,7 @@ class _FlutterTaggerState extends State<FlutterTagger> {
 ///[FlutterTagger]'s tags, dismissing overlay and retrieving formatted text.
 /// {@endtemplate}
 class FlutterTaggerController extends TextEditingController {
-  FlutterTaggerController({String? text}) : super(text: text);
+  FlutterTaggerController({String? text, this.onTagTap,}) : super(text: text);
 
   late final Trie _trie = Trie();
    Map<TaggedText, String> _tags = {};
@@ -903,6 +904,10 @@ class FlutterTaggerController extends TextEditingController {
   String get formattedText => _text;
 
   Function? _formatTagsCallback;
+
+
+    /// Callback for handling taps on mentions or hashtags
+  Function(String id, String tag)? onTagTap;
 
   /// {@template formatTags}
   ///Extracts tags from [FlutterTaggerController]'s [text] and formats the textfield to display them as tags.
@@ -1086,6 +1091,12 @@ if (text.isEmpty) return [];
         spans.add(TextSpan(
           text: currentTag,
           style: _tagStyles['@'],
+          recognizer: TapGestureRecognizer()
+              ..onTap = () {
+                if (onTagTap != null) {
+                  onTagTap!(_tags[currentTag]!, currentTag);
+                }
+              },
         ));
         inTag = false;
         currentTag = '';
