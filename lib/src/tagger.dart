@@ -1091,12 +1091,7 @@ if (text.isEmpty) return [];
         spans.add(TextSpan(
           text: currentTag,
           style: _tagStyles['@'],
-          recognizer: TapGestureRecognizer()
-              ..onTap = () {
-                if (onTagTap != null) {
-                  onTagTap!(_tags[currentTag]!, currentTag);
-                }
-              },
+        
         ));
         inTag = false;
         currentTag = '';
@@ -1110,6 +1105,12 @@ if (text.isEmpty) return [];
   if (inTag) {
     spans.add(TextSpan(
       text: currentTag,
+        recognizer: TapGestureRecognizer()
+              ..onTap = () {
+                if (onTagTap != null) {
+                  onTagTap!(_tags[currentTag]!, currentTag);
+                }
+              },
       style: _tagStyles['@'],
     ));
   }
