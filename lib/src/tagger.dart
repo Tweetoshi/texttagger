@@ -907,7 +907,7 @@ class FlutterTaggerController extends TextEditingController {
 
 
     /// Callback for handling taps on mentions or hashtags
-  Function(String id, String tag)? onTagTap;
+  Function(String tag)? onTagTap;
 
   /// {@template formatTags}
   ///Extracts tags from [FlutterTaggerController]'s [text] and formats the textfield to display them as tags.
@@ -1108,7 +1108,7 @@ if (text.isEmpty) return [];
         recognizer: TapGestureRecognizer()
               ..onTap = () {
                 if (onTagTap != null) {
-                  onTagTap!(_tags[currentTag]!, currentTag);
+                  onTagTap!(currentTag);
                 }
               },
       style: _tagStyles['@'],
