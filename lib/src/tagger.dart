@@ -868,7 +868,7 @@ class FlutterTaggerController extends TextEditingController {
    Map<TaggedText, String> _tags = {};
   Map<TaggedText, String> get tags => _tags;
   late Map<String, TextStyle> _tagStyles;
-
+  
   void _setTagStyles(Map<String, TextStyle> tagStyles) {
     _tagStyles = tagStyles;
   }
@@ -1104,15 +1104,37 @@ if (text.isEmpty) return [];
   // Check if there's an unclosed tag at the end of input
   if (inTag) {
     spans.add(TextSpan(
-      text: currentTag,
-        recognizer: TapGestureRecognizer()
-              ..onTap = () {
-                if (onTagTap != null) {
-                  onTagTap!(currentTag);
-                }
-              },
+       text: '\u200B'*(currentTag.length-1),
       style: _tagStyles['@'],
+      children: [ WidgetSpan(
+        
+            alignment: PlaceholderAlignment.middle,
+            child: 
+                GestureDetector(
+                  onTap: () {
+                    if (onTagTap != null) {
+                      onTagTap!(currentTag);
+                    }
+                  },
+                  child: Text(
+                    currentTag,
+                    style: _tagStyles['@'],
+                  ),
+                ),
+          ),
+          
+      ]
     ));
+    // spans.add(TextSpan(
+    //   text: currentTag,
+    //     recognizer: TapGestureRecognizer()
+    //           ..onTap = () {
+    //             if (onTagTap != null) {
+    //               onTagTap!(currentTag);
+    //             }
+    //           },
+    //   style: _tagStyles['@'],
+    // ));
   }
 
   return spans;
