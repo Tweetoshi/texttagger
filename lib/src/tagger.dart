@@ -820,7 +820,7 @@ class _FlutterTaggerState extends State<FlutterTagger> {
     if(!widget.clearTagsOnInit){
     _tags = controller._tags;
     }else{
-      controller._setTags(_tags);
+      controller.setTags(_tags);
     }
     
     controller._setTriggerCharactersRegExpPattern(_triggerCharactersPattern);
@@ -884,7 +884,7 @@ class FlutterTaggerController extends TextEditingController {
     _formatTagsCallback?.call();
   }
 
-  void _setTags(Map<TaggedText, String> tags) {
+  void setTags(Map<TaggedText, String> tags) {
     _tags = tags;
   }
 

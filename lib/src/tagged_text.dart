@@ -26,4 +26,20 @@ class TaggedText {
   String toString() {
     return "TaggedText(startIndex: $startIndex, endIndex: $endIndex, text: $text)";
   }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'startIndex': startIndex,
+      'endIndex': endIndex,
+      'text': text,
+    };
+  }
+
+  factory TaggedText.fromJson(Map<String, dynamic> json) {
+    return TaggedText(
+      startIndex: json['startIndex'] as int,
+      endIndex: json['endIndex'] as int,
+      text: json['text'] as String,
+    );
+  }
 }
